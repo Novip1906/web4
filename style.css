@@ -117,8 +117,22 @@ body.light-theme {
   background: #7a7a7a;
 }
 
+.my-btn.info {
+  background: #0076a3;
+  font-size: 1rem;
+}
+
+.my-btn.info:hover {
+  background: #0099d1;
+}
+
 .my-btn.execute { 
-  width: 122px; 
+  width: 55px; 
+}
+
+.row {
+  display: flex;
+  justify-content: center;
 }
 
 .footer {
