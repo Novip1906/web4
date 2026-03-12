@@ -18,8 +18,8 @@ body.light-theme {
   --accent-color: #0076a3;
   --nav-bg: #ffffff;
   --card-bg: #ffffff;
-  --btn-bg: #e0e0e0;
-  --btn-hover: #d0d0d0;
+  --btn-bg: #4a4a4a;
+  --btn-hover: #333333;
   --footer-bg: #eeeeee;
   --shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
