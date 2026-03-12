@@ -1,62 +1,160 @@
-body {
-  background-color: #121212;
-  background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
-  color: #e0e0e0;
-  font-family: 'Consolas', monospace;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  margin: 0;
-  transition: background-color 0.3s;
+:root {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --accent-color: #00ADD8;
+  --nav-bg: #1a1a1a;
+  --card-bg: #1e1e1e;
+  --btn-bg: #3a3a3a;
+  --btn-hover: #555;
+  --footer-bg: #0f0f0f;
+  --shadow: 0 10px 30px rgba(0,0,0,0.5);
+  --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-mono: 'Consolas', monospace;
 }
 
 body.light-theme {
-  background-color: #e2e8f0;
-  color: #1a202c;
+  --bg-color: #f5f5f5;
+  --text-color: #212121;
+  --accent-color: #0076a3;
+  --nav-bg: #ffffff;
+  --card-bg: #ffffff;
+  --btn-bg: #e0e0e0;
+  --btn-hover: #d0d0d0;
+  --footer-bg: #eeeeee;
+  --shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.lab-header {
-  max-width: 500px;
-  margin-bottom: 20px;
-  text-align: center;
+* {
+  box-sizing: border-box;
 }
 
-.goal mark {
-  background-color: #00ADD8;
-  color: #121212;
-  padding: 2px 4px;
-  border-radius: 3px;
+body {
+  background-color: var(--bg-color);
+  background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+  color: var(--text-color);
+  font-family: var(--font-main);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.action-btn, .theme-select {
-  margin: 5px;
-  padding: 8px 12px;
-  background: #333;
-  color: #fff;
-  border: 1px solid #00ADD8;
-  border-radius: 5px;
+/* Navbar */
+.navbar {
+  background-color: var(--nav-bg);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-color);
   cursor: pointer;
-  font-family: inherit;
+  user-select: none;
 }
 
-.link-btn {
-  display: inline-block;
-  text-decoration: none;
+.nav-links {
+  display: flex;
+  gap: 15px;
 }
 
-.action-btn:hover {
-  background: #00ADD8;
-  color: #000;
+.nav-link {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-link:hover {
+  background: rgba(0, 173, 216, 0.1);
+  color: var(--accent-color);
+}
+
+.nav-link.active {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+/* Main Content */
+.content {
+  flex: 1;
+  max-width: 1000px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.slogan {
+  font-size: 3rem;
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card h2 {
+  color: var(--accent-color);
+  margin-top: 0;
+}
+
+/* Calculator Styles */
+.calculator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
 }
 
 .calculator {
-  background: #1e1e1e;
+  background: var(--card-bg);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-  border: 2px solid #333;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(255,255,255,0.1);
 }
 
 .result { 
@@ -69,6 +167,7 @@ body.light-theme {
   text-align: right;
   color: #00ADD8;
   font-size: 2.5rem;
+  font-family: var(--font-mono);
   border-radius: 10px; 
   box-sizing: border-box;
   box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
@@ -80,10 +179,10 @@ body.light-theme {
   height: 55px;
   border-radius: 6px;
   border: none;
-  background: #3a3a3a;
+  background: var(--btn-bg);
   color: #ffffff;
   font-size: 1.5rem;
-  font-family: 'Consolas', monospace;
+  font-family: var(--font-mono);
   font-weight: bold;
   cursor: pointer;
   user-select: none;
@@ -91,7 +190,7 @@ body.light-theme {
 } 
 
 .my-btn:hover {
-  background: #555555; 
+  background: var(--btn-hover); 
 }
 
 .my-btn:active {
@@ -99,22 +198,16 @@ body.light-theme {
 }
 
 .my-btn.primary { 
-  background: #00ADD8; 
-  color: #121212;
-  font-weight: lighter;
+  background: var(--accent-color); 
+  color: #fff;
 }
 
 .my-btn.primary:hover {
-  background: #00c3f5;
+  filter: brightness(1.1);
 }
 
 .my-btn.secondary { 
-  background: #666666; 
-  font-weight: lighter;
-}
-
-.my-btn.secondary:hover {
-  background: #7a7a7a;
+  background: #666; 
 }
 
 .my-btn.info {
@@ -135,8 +228,60 @@ body.light-theme {
   justify-content: center;
 }
 
+/* Footer */
 .footer {
-  margin-top: 30px;
+  background-color: var(--footer-bg);
   color: #777;
-  font-size: 0.9rem;
+  padding: 2rem;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-logo {
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.footer-links a {
+  color: #777;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--accent-color);
+}
+
+.goal mark {
+  background-color: var(--accent-color);
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.action-btn {
+  padding: 8px 16px;
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.1s;
+}
+
+.action-btn:active {
+  transform: scale(0.98);
 }

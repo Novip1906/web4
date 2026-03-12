@@ -3,87 +3,122 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Калькулятор</title>
+  <title>Калькулятор - Museum Edition (Lab 2)</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div class="lab-header">
-    <p class="goal">Цель ЛР - <mark>знакомство</mark> с инструментами построения пользовательских интерфейсов
-      web-сайтов: <mark>HTML</mark>, <mark>CSS</mark>.</p>
-
-    <details>
-      <summary>Автор работы</summary>
-      <p>ФИО: Щепнов Филипп Владимирович</p>
-      <p>Группа: ИУ5-42Б</p>
-    </details>
-
-    <select class="theme-select">
-      <option>Стиль: Golang Dark (Основной)</option>
-      <option>Стиль: Классический</option>
-    </select>
-
-    <button class="action-btn" onclick="document.body.classList.toggle('light-theme')">Сменить тему</button>
-
-    <a href="https://github.com/Novip1906" target="_blank" class="action-btn link-btn">Мой GitHub</a>
-  </div>
-
-  <div class="calculator">
-
-    <div id="result" class="result">
-      0
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo" id="nav-logo">🏛️ MuseumCalc</div>
+      <div class="nav-links">
+        <button class="nav-link active" data-tab="home">Главная</button>
+        <button class="nav-link" data-tab="about">About you</button>
+        <button class="nav-link" data-tab="goal">Цель работы</button>
+        <button class="nav-link" data-tab="calc">Калькулятор</button>
+      </div>
+      <button id="theme-toggle" class="action-btn">🌓 Сменить тему</button>
     </div>
+  </nav>
 
-    <div class="button-grid">
-      <div class="row">
-        <button id="btn_op_clear" class="my-btn secondary">C</button>
-        <button id="btn_op_backspace" class="my-btn secondary">⌫</button>
-        <button id="btn_op_percent" class="my-btn secondary">%</button>
-        <button id="btn_op_div" class="my-btn primary">/</button>
+  <main class="content">
+    <section id="tab-home" class="tab-content active">
+      <div class="hero">
+        <h1 class="slogan">Вдохновение в расчетах, искусство в точности.</h1>
+        <p>Добро пожаловать в цифровое пространство, где математика встречается с эстетикой музея.</p>
+        <p>В этой версии (Lab 2) вам доступны расширенные научные функции.</p>
       </div>
-      <div class="row">
-        <button id="btn_digit_7" class="my-btn">7</button>
-        <button id="btn_digit_8" class="my-btn">8</button>
-        <button id="btn_digit_9" class="my-btn">9</button>
-        <button id="btn_op_mult" class="my-btn primary">x</button>
+    </section>
+
+    <section id="tab-about" class="tab-content">
+      <div class="card">
+        <h2>About You</h2>
+        <div class="author-info">
+          <p><strong>ФИО:</strong> Щепнов Филипп Владимирович</p>
+          <p><strong>Группа:</strong> ИУ5-42Б</p>
+          <p><strong>Интересы:</strong> Веб-технологии, история искусства, архитектура систем.</p>
+        </div>
       </div>
-      <div class="row">
-        <button id="btn_digit_4" class="my-btn">4</button>
-        <button id="btn_digit_5" class="my-btn">5</button>
-        <button id="btn_digit_6" class="my-btn">6</button>
-        <button id="btn_op_minus" class="my-btn primary">-</button>
+    </section>
+
+    <section id="tab-goal" class="tab-content">
+      <div class="card">
+        <h2>Цель работы</h2>
+        <p class="goal">Цель ЛР - <mark>знакомство</mark> с инструментами построения пользовательских интерфейсов web-сайтов: <mark>HTML</mark>, <mark>CSS</mark>.</p>
       </div>
-      <div class="row">
-        <button id="btn_digit_1" class="my-btn">1</button>
-        <button id="btn_digit_2" class="my-btn">2</button>
-        <button id="btn_digit_3" class="my-btn">3</button>
-        <button id="btn_op_plus" class="my-btn primary">+</button>
+    </section>
+
+    <section id="tab-calc" class="tab-content">
+      <div class="calculator-container">
+        <div class="calculator">
+          <div id="result" class="result">0</div>
+          <div class="button-grid">
+            <div class="row">
+              <button id="btn_op_clear" class="my-btn secondary">C</button>
+              <button id="btn_op_backspace" class="my-btn secondary">⌫</button>
+              <button id="btn_op_percent" class="my-btn secondary">%</button>
+              <button id="btn_op_div" class="my-btn primary">/</button>
+            </div>
+            <div class="row">
+              <button id="btn_digit_7" class="my-btn">7</button>
+              <button id="btn_digit_8" class="my-btn">8</button>
+              <button id="btn_digit_9" class="my-btn">9</button>
+              <button id="btn_op_mult" class="my-btn primary">x</button>
+            </div>
+            <div class="row">
+              <button id="btn_digit_4" class="my-btn">4</button>
+              <button id="btn_digit_5" class="my-btn">5</button>
+              <button id="btn_digit_6" class="my-btn">6</button>
+              <button id="btn_op_minus" class="my-btn primary">-</button>
+            </div>
+            <div class="row">
+              <button id="btn_digit_1" class="my-btn">1</button>
+              <button id="btn_digit_2" class="my-btn">2</button>
+              <button id="btn_digit_3" class="my-btn">3</button>
+              <button id="btn_op_plus" class="my-btn primary">+</button>
+            </div>
+            <div class="row">
+              <button id="btn_digit_0" class="my-btn">0</button>
+              <button id="btn_digit_000" class="my-btn">000</button>
+              <button id="btn_digit_dot" class="my-btn">.</button>
+              <button id="btn_op_equal" class="my-btn primary execute">=</button>
+            </div>
+            <div class="row">
+              <button id="btn_op_sqrt" class="my-btn secondary">√</button>
+              <button id="btn_op_sqr" class="my-btn secondary">x²</button>
+              <button id="btn_op_fact" class="my-btn secondary">x!</button>
+              <button id="btn_op_sign" class="my-btn secondary">+/-</button>
+            </div>
+            <div class="row">
+              <button id="btn_op_bg_color" class="my-btn info">BG</button>
+              <button id="btn_op_res_color" class="my-btn info">Res</button>
+              <button id="btn_op_log" class="my-btn info">log</button>
+              <button id="btn_op_clear_all" class="my-btn info">CE</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="row">
-        <button id="btn_digit_0" class="my-btn">0</button>
-        <button id="btn_digit_000" class="my-btn">000</button>
-        <button id="btn_digit_dot" class="my-btn">.</button>
-        <button id="btn_op_equal" class="my-btn primary execute">=</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">🏛️ MuseumCalc</div>
+      <div class="footer-info">
+        <p>Исполнитель: Щепнов Ф.В.</p>
+        <p>Группа: ИУ5-42Б</p>
       </div>
-      <div class="row">
-        <button id="btn_op_sqrt" class="my-btn secondary">√</button>
-        <button id="btn_op_sqr" class="my-btn secondary">x²</button>
-        <button id="btn_op_fact" class="my-btn secondary">x!</button>
-        <button id="btn_op_sign" class="my-btn secondary">+/-</button>
-      </div>
-      <div class="row">
-        <button id="btn_op_bg_color" class="my-btn info">BG</button>
-        <button id="btn_op_res_color" class="my-btn info">Res</button>
-        <button id="btn_op_log" class="my-btn info">log</button>
-        <button id="btn_op_clear_all" class="my-btn info">CE</button>
+      <div class="footer-links">
+        <a href="https://github.com/Novip1906" target="_blank" class="github-link">
+          <svg height="24" width="24" viewBox="0 0 16 16">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"></path>
+          </svg>
+          GitHub
+        </a>
       </div>
     </div>
-  </div>
-
-  <div class="footer">
-    ЛР выполнена студентом ИУ5-42Б
-  </div>
+  </footer>
 
   <script src="script.js" defer></script>
 </body>
