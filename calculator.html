@@ -11,45 +11,19 @@
 
   <nav class="navbar">
     <div class="nav-container">
-      <div class="logo" id="nav-logo">🏛️ MuseumCalc</div>
+      <a href="index.html" class="logo" id="nav-logo">🏛️ MuseumCalc</a>
       <div class="nav-links">
-        <button class="nav-link active" data-tab="home">Главная</button>
-        <button class="nav-link" data-tab="about">About you</button>
-        <button class="nav-link" data-tab="goal">Цель работы</button>
-        <button class="nav-link" data-tab="calc">Калькулятор</button>
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="about.html" class="nav-link">About you</a>
+        <a href="goal.html" class="nav-link">Цель работы</a>
+        <a href="calculator.html" class="nav-link active">Калькулятор</a>
         <a href="https://github.com/Novip1906" target="_blank" class="nav-link github-nav-link">GitHub</a>
       </div>
-      <button id="theme-toggle" class="action-btn">🌓 Сменить тему</button>
     </div>
   </nav>
 
   <main class="content">
-    <section id="tab-home" class="tab-content active">
-      <div class="hero">
-        <h1 class="slogan">Вдохновение в расчетах, искусство в точности.</h1>
-        <p>Добро пожаловать в цифровое пространство, где математика встречается с эстетикой музея.</p>
-      </div>
-    </section>
-
-    <section id="tab-about" class="tab-content">
-      <div class="card">
-        <h2>About You</h2>
-        <div class="author-info">
-          <p><strong>ФИО:</strong> Щепнов Филипп Владимирович</p>
-          <p><strong>Группа:</strong> ИУ5-42Б</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="tab-goal" class="tab-content">
-      <div class="card">
-        <h2>Цель работы</h2>
-        <p class="goal">Цель ЛР - <mark>знакомство</mark> с инструментами построения пользовательских интерфейсов
-          web-сайтов: <mark>HTML</mark>, <mark>CSS</mark>.</p>
-      </div>
-    </section>
-
-    <section id="tab-calc" class="tab-content">
+    <section id="tab-calc" class="tab-content active">
       <div class="calculator-container">
         <div class="calculator">
           <div id="result" class="result">0</div>
@@ -88,9 +62,6 @@
       </div>
     </section>
   </main>
-
-
-  <script src="script.js"></script>
 
 </body>
 
