@@ -210,37 +210,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateDisplay(getFullDisplayString());
             }
 
-            if (id === 'btn_op_percent') {
-                if (currentOperand !== '') {
-                    currentOperand = (Number(currentOperand) / 100).toString();
-                }
-                updateDisplay(getFullDisplayString());
-            }
 
-            if (id === 'btn_op_sqrt') {
-                if (currentOperand !== '') {
-                    let val = Number(currentOperand);
-                    let res = Math.sqrt(val);
-                    currentOperand = formatOutput(res).toString();
-                    updateDisplay(getFullDisplayString());
-                }
-            }
+            if (id === 'btn_op_sqrt' || id === 'btn_op_sqr' || id === 'btn_op_fact' || id === 'btn_op_percent') {
+                if (expression !== '' || currentOperand !== '') {
+                    let fullExpr = expression + currentOperand;
+                    let val = evaluateExpression(fullExpr);
+                    
+                    if (val === 'Ошибка') {
+                        currentOperand = 'Ошибка';
+                    } else {
+                        let res;
+                        if (id === 'btn_op_sqrt') res = Math.sqrt(val);
+                        else if (id === 'btn_op_sqr') res = val * val;
+                        else if (id === 'btn_op_fact') res = factorial(val);
+                        else if (id === 'btn_op_percent') res = val / 100;
+                        
+                        currentOperand = formatOutput(res).toString();
+                    }
+                    
+                    let displayHistory = fullExpr;
+                    if (id === 'btn_op_sqrt') displayHistory = `sqrt(${fullExpr})`;
+                    else if (id === 'btn_op_sqr') displayHistory = `(${fullExpr})²`;
+                    else if (id === 'btn_op_fact') displayHistory = `(${fullExpr})!`;
+                    else if (id === 'btn_op_percent') displayHistory = `(${fullExpr})%`;
 
-            if (id === 'btn_op_sqr') {
-                if (currentOperand !== '') {
-                    let val = Number(currentOperand);
-                    let res = val * val;
-                    currentOperand = formatOutput(res).toString();
-                    updateDisplay(getFullDisplayString());
-                }
-            }
-
-            if (id === 'btn_op_fact') {
-                if (currentOperand !== '') {
-                    let val = Number(currentOperand);
-                    let res = factorial(val);
-                    currentOperand = formatOutput(res).toString();
-                    updateDisplay(getFullDisplayString());
+                    expression = '';
+                    finish = true;
+                    updateDisplay(currentOperand, displayHistory);
                 }
             }
         };
