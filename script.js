@@ -73,6 +73,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return res;
     }
 
+    const MAX_LENGTH = 10;
+
+    function formatOutput(num) {
+        let str = num.toString();
+        if (str.length > MAX_LENGTH) {
+            if (Math.abs(num) >= 1e10 || (Math.abs(num) < 1e-7 && num !== 0)) {
+                return num.toExponential(4);
+            }
+            return parseFloat(num.toFixed(MAX_LENGTH - str.split('.')[0].length - 1));
+        }
+        return num;
+    }
+
     function performCalculation() {
         if (b === '') b = a;
         let numA = Number(a);
@@ -98,12 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
         finish = true;
-        out.textContent = isNaN(a) ? 'Ошибка' : parseFloat(Number(a).toFixed(7));
+        out.textContent = isNaN(a) ? 'Ошибка' : formatOutput(Number(a));
         b = '';
     }
 
     document.getElementById('btn_op_clear').onclick = clearAll;
-
 
     const calculator = document.querySelector('.calculator');
     if (calculator) {
@@ -126,16 +138,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (digit.includes(key)) {
-                let val = key === '000' ? '000' : key;
                 if (b === '' && sign === '') {
-                    a += val;
+                    if (finish) {
+                        a = '';
+                        finish = false;
+                    }
+                    if (a === '0' && key !== '.') {
+                        a = key === '000' ? '0' : key;
+                    } else {
+                        let val = (a === '' && key === '000') ? '0' : key;
+                        if (a.length + val.length > MAX_LENGTH) return;
+                        a += val;
+                    }
                     out.textContent = a;
-                } else if (a !== '' && b !== '' && finish) {
-                    b = val;
-                    finish = false;
-                    out.textContent = b;
                 } else {
-                    b += val;
+                    if (finish) {
+                        b = '';
+                        finish = false;
+                    }
+                    if (b === '0' && key !== '.') {
+                        b = key === '000' ? '0' : key;
+                    } else {
+                        let val = (b === '' && key === '000') ? '0' : key;
+                        if (b.length + val.length > MAX_LENGTH) return;
+                        b += val;
+                    }
                     out.textContent = b;
                 }
                 return;
@@ -157,20 +184,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (id === 'btn_op_sign') {
                 if (b === '') {
                     a = -a;
-                    out.textContent = a;
+                    out.textContent = formatOutput(Number(a));
                 } else {
                     b = -b;
-                    out.textContent = b;
+                    out.textContent = formatOutput(Number(b));
                 }
             }
 
             if (id === 'btn_op_percent') {
                 if (b === '') {
                     a = a / 100;
-                    out.textContent = a;
+                    out.textContent = formatOutput(Number(a));
                 } else {
                     b = (a * b) / 100;
-                    out.textContent = b;
+                    out.textContent = formatOutput(Number(b));
                 }
             }
 
@@ -178,22 +205,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 let val = b === '' ? a : b;
                 let res = Math.sqrt(Number(val));
                 if (b === '') a = res; else b = res;
-                out.textContent = parseFloat(Number(res).toFixed(7));
+                out.textContent = formatOutput(Number(res));
             }
 
             if (id === 'btn_op_sqr') {
                 let val = b === '' ? a : b;
                 let res = Number(val) * Number(val);
                 if (b === '') a = res; else b = res;
-                out.textContent = parseFloat(Number(res).toFixed(7));
+                out.textContent = formatOutput(Number(res));
             }
 
             if (id === 'btn_op_fact') {
                 let val = b === '' ? a : b;
                 let res = factorial(Number(val));
                 if (b === '') a = res; else b = res;
-                out.textContent = res;
+                out.textContent = formatOutput(Number(res));
             }
         };
     }
 });
+
