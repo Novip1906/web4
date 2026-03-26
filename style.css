@@ -221,14 +221,7 @@ body {
   background: #666;
 }
 
-.my-btn.info {
-  background: #0076a3;
-  font-size: 1rem;
-}
 
-.my-btn.info:hover {
-  background: #0099d1;
-}
 
 .my-btn.execute {
   width: 55px;

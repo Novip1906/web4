@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let finish = false;
 
     const digit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '000'];
-    const action = ['-', '+', 'x', '/', 'log'];
+    const action = ['-', '+', 'x', '/'];
 
     const out = document.getElementById('result');
 
@@ -96,9 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 a = numA / numB;
                 break;
-            case "log":
-                a = Math.log10(numA);
-                break;
         }
         finish = true;
         out.textContent = isNaN(a) ? 'Ошибка' : parseFloat(Number(a).toFixed(7));
@@ -106,19 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('btn_op_clear').onclick = clearAll;
-    document.getElementById('btn_op_clear_all').onclick = clearAll;
 
-    document.getElementById('btn_op_bg_color').onclick = () => {
-        const colors = ['#121212', '#1a1a2e', '#2d3436', '#000000', '#2c3e50'];
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-        document.body.style.backgroundColor = randomColor;
-    };
-
-    document.getElementById('btn_op_res_color').onclick = () => {
-        const colors = ['#2d2d2d', '#34495e', '#1e272e', '#485460'];
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-        out.style.backgroundColor = randomColor;
-    };
 
     const calculator = document.querySelector('.calculator');
     if (calculator) {
@@ -127,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const key = event.target.textContent;
             const id = event.target.id;
 
-            if (id === 'btn_op_clear' || id === 'btn_op_clear_all' || id === 'btn_op_bg_color' || id === 'btn_op_res_color') return;
+            if (id === 'btn_op_clear') return;
 
             if (id === 'btn_op_backspace') {
                 if (b !== '') {
