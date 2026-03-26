@@ -2,4 +2,4 @@
 
 **Цель** данной лабораторной работы - знакомство с инструментами построения пользовательских интерфейсов web-сайтов: HTML, CSS, JavaScript. В ходе выполнения работы, вам предстоит продолжить реализовывать простой калькулятор, и затем выполнить задания по варианту.
 
-* [Методические указания](https://github.com/iu5git/JavaScript/blob/main/tutorials/lab1/README.md)
+* [Методические указания](https://github.com/iu5git/JavaScript/blob/main/tutorials/lab2/README.md)

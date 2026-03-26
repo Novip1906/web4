@@ -47,22 +47,32 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', currentTheme);
     });
 
-    let a = '';
-    let b = '';
-    let sign = '';
+    let expression = ''; 
+    let currentOperand = ''; 
     let finish = false;
 
     const digit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '000'];
     const action = ['-', '+', 'x', '/'];
 
     const out = document.getElementById('result');
+    const historyOut = document.getElementById('history');
+
+    function updateDisplay(main, history) {
+        out.textContent = main || '0';
+        if (history !== undefined) {
+            historyOut.textContent = history;
+        }
+    }
+
+    function getFullDisplayString() {
+        return expression + currentOperand || '0';
+    }
 
     function clearAll() {
-        a = '';
-        b = '';
-        sign = '';
+        expression = '';
+        currentOperand = '';
         finish = false;
-        out.textContent = 0;
+        updateDisplay('0', '');
     }
 
     function factorial(n) {
@@ -73,46 +83,33 @@ document.addEventListener('DOMContentLoaded', () => {
         return res;
     }
 
-    const MAX_LENGTH = 10;
+    const MAX_LENGTH = 15; 
 
     function formatOutput(num) {
+        if (typeof num !== 'number') return num;
         let str = num.toString();
-        if (str.length > MAX_LENGTH) {
+        if (str.length > 10) {
             if (Math.abs(num) >= 1e10 || (Math.abs(num) < 1e-7 && num !== 0)) {
                 return num.toExponential(4);
             }
-            return parseFloat(num.toFixed(MAX_LENGTH - str.split('.')[0].length - 1));
+            return parseFloat(num.toFixed(4));
         }
         return num;
     }
 
-    function performCalculation() {
-        if (b === '') b = a;
-        let numA = Number(a);
-        let numB = Number(b);
+    function evaluateExpression(str) {
+        try {
+            let safeStr = str.replace(/x/g, '*');
+            
+            if (safeStr.includes('/0')) return 'Ошибка';
 
-        switch (sign) {
-            case "+":
-                a = numA + numB;
-                break;
-            case "-":
-                a = numA - numB;
-                break;
-            case "x":
-                a = numA * numB;
-                break;
-            case "/":
-                if (numB === 0) {
-                    out.textContent = 'Ошибка';
-                    a = ''; b = ''; sign = '';
-                    return;
-                }
-                a = numA / numB;
-                break;
+            let result = new Function('return ' + safeStr)();
+            
+            if (isNaN(result) || !isFinite(result)) return 'Ошибка';
+            return result;
+        } catch (e) {
+            return 'Ошибка';
         }
-        finish = true;
-        out.textContent = isNaN(a) ? 'Ошибка' : formatOutput(Number(a));
-        b = '';
     }
 
     document.getElementById('btn_op_clear').onclick = clearAll;
@@ -127,99 +124,124 @@ document.addEventListener('DOMContentLoaded', () => {
             if (id === 'btn_op_clear') return;
 
             if (id === 'btn_op_backspace') {
-                if (b !== '') {
-                    b = b.toString().slice(0, -1);
-                    out.textContent = b || 0;
-                } else {
-                    a = a.toString().slice(0, -1);
-                    out.textContent = a || 0;
+                if (currentOperand !== '') {
+                    currentOperand = currentOperand.slice(0, -1);
+                } else if (expression !== '') {
+                    expression = expression.trim().slice(0, -1).trim();
                 }
+                updateDisplay(getFullDisplayString());
                 return;
             }
 
             if (digit.includes(key)) {
-                if (b === '' && sign === '') {
-                    if (finish) {
-                        a = '';
-                        finish = false;
+                if (finish) {
+                    if (key !== '.') {
+                        expression = '';
+                        currentOperand = '';
                     }
-                    if (a === '0' && key !== '.') {
-                        a = key === '000' ? '0' : key;
-                    } else {
-                        let val = (a === '' && key === '000') ? '0' : key;
-                        if (a.length + val.length > MAX_LENGTH) return;
-                        a += val;
-                    }
-                    out.textContent = a;
-                } else {
-                    if (finish) {
-                        b = '';
-                        finish = false;
-                    }
-                    if (b === '0' && key !== '.') {
-                        b = key === '000' ? '0' : key;
-                    } else {
-                        let val = (b === '' && key === '000') ? '0' : key;
-                        if (b.length + val.length > MAX_LENGTH) return;
-                        b += val;
-                    }
-                    out.textContent = b;
+                    finish = false;
                 }
+
+                if (key === '.' && currentOperand.includes('.')) return;
+                
+                if (key === '000') {
+                    if (currentOperand === '' || currentOperand === '0') {
+                        currentOperand = '0';
+                    } else {
+                        currentOperand += '000';
+                    }
+                } else if (key === '.') {
+                    if (currentOperand === '') currentOperand = '0';
+                    currentOperand += '.';
+                } else {
+                    if (currentOperand === '0') {
+                        currentOperand = key;
+                    } else {
+                        currentOperand += key;
+                    }
+                }
+
+                if (currentOperand.length > MAX_LENGTH) {
+                    currentOperand = currentOperand.slice(0, MAX_LENGTH);
+                }
+
+                updateDisplay(getFullDisplayString());
                 return;
             }
 
             if (action.includes(key)) {
-                if (a !== '' && b !== '') {
-                    performCalculation();
+                if (finish) {
+                    expression = out.textContent + key;
+                    currentOperand = '';
+                    finish = false;
+                } else {
+                    if (currentOperand === '' && expression !== '') {
+                        expression = expression.slice(0, -1) + key;
+                    } else {
+                        expression += currentOperand + key;
+                        currentOperand = '';
+                    }
                 }
-                sign = key;
-                out.textContent = sign;
+                updateDisplay(getFullDisplayString());
                 return;
             }
 
             if (key === '=') {
-                performCalculation();
+                if (expression === '' && currentOperand === '') return;
+                
+                let fullExpr = expression + currentOperand;
+                let result = evaluateExpression(fullExpr);
+                
+                updateDisplay(formatOutput(result), fullExpr);
+                
+                expression = '';
+                currentOperand = formatOutput(result).toString();
+                finish = true;
+                return;
             }
 
             if (id === 'btn_op_sign') {
-                if (b === '') {
-                    a = -a;
-                    out.textContent = formatOutput(Number(a));
-                } else {
-                    b = -b;
-                    out.textContent = formatOutput(Number(b));
+                if (currentOperand !== '') {
+                    currentOperand = (Number(currentOperand) * -1).toString();
+                } else if (finish) {
+                    currentOperand = (Number(out.textContent) * -1).toString();
+                    finish = false;
                 }
+                updateDisplay(getFullDisplayString());
             }
 
             if (id === 'btn_op_percent') {
-                if (b === '') {
-                    a = a / 100;
-                    out.textContent = formatOutput(Number(a));
-                } else {
-                    b = (a * b) / 100;
-                    out.textContent = formatOutput(Number(b));
+                if (currentOperand !== '') {
+                    currentOperand = (Number(currentOperand) / 100).toString();
                 }
+                updateDisplay(getFullDisplayString());
             }
 
             if (id === 'btn_op_sqrt') {
-                let val = b === '' ? a : b;
-                let res = Math.sqrt(Number(val));
-                if (b === '') a = res; else b = res;
-                out.textContent = formatOutput(Number(res));
+                if (currentOperand !== '') {
+                    let val = Number(currentOperand);
+                    let res = Math.sqrt(val);
+                    currentOperand = formatOutput(res).toString();
+                    updateDisplay(getFullDisplayString());
+                }
             }
 
             if (id === 'btn_op_sqr') {
-                let val = b === '' ? a : b;
-                let res = Number(val) * Number(val);
-                if (b === '') a = res; else b = res;
-                out.textContent = formatOutput(Number(res));
+                if (currentOperand !== '') {
+                    let val = Number(currentOperand);
+                    let res = val * val;
+                    currentOperand = formatOutput(res).toString();
+                    updateDisplay(getFullDisplayString());
+                }
             }
 
             if (id === 'btn_op_fact') {
-                let val = b === '' ? a : b;
-                let res = factorial(Number(val));
-                if (b === '') a = res; else b = res;
-                out.textContent = formatOutput(Number(res));
+                if (currentOperand !== '') {
+                    let val = Number(currentOperand);
+                    let res = factorial(val);
+                    currentOperand = formatOutput(res).toString();
+                    updateDisplay(getFullDisplayString());
+                }
             }
         };
     }
