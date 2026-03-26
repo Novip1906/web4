@@ -40,7 +40,6 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Navbar */
 .navbar {
   background-color: var(--nav-bg);
   padding: 1rem 2rem;
@@ -92,7 +91,6 @@ body {
   color: #fff;
 }
 
-/* Main Content */
 .content {
   flex: 1;
   max-width: 1000px;
@@ -123,7 +121,6 @@ body {
   }
 }
 
-/* Hero Section */
 .hero {
   text-align: center;
   padding: 4rem 1rem;
@@ -135,7 +132,6 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Cards */
 .card {
   background-color: var(--card-bg);
   padding: 2rem;
@@ -154,7 +150,6 @@ body {
   margin-top: 0;
 }
 
-/* Calculator Styles */
 .calculator-container {
   display: flex;
   justify-content: center;

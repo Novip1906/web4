@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Tab Switching Logic ---
     const navLinks = document.querySelectorAll('.nav-link');
     const tabContents = document.querySelectorAll('.tab-content');
     const navLogo = document.getElementById('nav-logo');
@@ -34,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Theme Switching Logic ---
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
 
@@ -49,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', currentTheme);
     });
 
-    // --- Scientific Calculator Logic (Lab 2) ---
     let a = '';
     let b = '';
     let sign = '';
@@ -108,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
         b = '';
     }
 
-    // Click handlers for specific buttons
     document.getElementById('btn_op_clear').onclick = clearAll;
     document.getElementById('btn_op_clear_all').onclick = clearAll;
 
@@ -131,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const key = event.target.textContent;
             const id = event.target.id;
 
-            // Skip buttons with separate handlers
             if (id === 'btn_op_clear' || id === 'btn_op_clear_all' || id === 'btn_op_bg_color' || id === 'btn_op_res_color') return;
 
             if (id === 'btn_op_backspace') {
