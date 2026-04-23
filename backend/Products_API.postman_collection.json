@@ -1,0 +1,197 @@
+{
+  "info": {
+    "name": "Products API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET all products",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/products",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products"]
+        }
+      }
+    },
+    {
+      "name": "GET all products (filter by title)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/products?title=вклад",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products"],
+          "query": [
+            {
+              "key": "title",
+              "value": "вклад"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET product by id",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/products/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products", "1"]
+        }
+      }
+    },
+    {
+      "name": "GET product by id (not found)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/products/999",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products", "999"]
+        }
+      }
+    },
+    {
+      "name": "POST create product",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"Вклад\",\n  \"src\": \"https://images.unsplash.com/photo-1579621970795-87facc2f976d?w=800\",\n  \"title\": \"Новый продукт\",\n  \"shortText\": \"Краткое описание нового продукта.\",\n  \"text\": \"Полное описание нового финансового продукта.\",\n  \"rate\": \"10%\",\n  \"minAmount\": \"5 000 ₽\",\n  \"term\": \"12 месяцев\",\n  \"currency\": \"₽\",\n  \"risk\": \"Низкий\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/products",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products"]
+        }
+      }
+    },
+    {
+      "name": "POST create product (validation error)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Только заголовок\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/products",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products"]
+        }
+      }
+    },
+    {
+      "name": "PATCH update product",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Обновлённое название\",\n  \"rate\": \"15%\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/products/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products", "1"]
+        }
+      }
+    },
+    {
+      "name": "PATCH update product (not found)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Не существует\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/products/999",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products", "999"]
+        }
+      }
+    },
+    {
+      "name": "DELETE product",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:3000/products/6",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products", "6"]
+        }
+      }
+    },
+    {
+      "name": "DELETE product (not found)",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:3000/products/999",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["products", "999"]
+        }
+      }
+    },
+    {
+      "name": "GET unknown route (404)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/unknown",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["unknown"]
+        }
+      }
+    }
+  ]
+}
