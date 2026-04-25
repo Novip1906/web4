@@ -5,7 +5,13 @@ export class ProductComponent {
         this.parent = parent;
     }
 
+    parseRate(rateStr) {
+        const match = rateStr.replace(",", ".").match(/[\d.]+/);
+        return match ? parseFloat(match[0]) : 10;
+    }
+
     getHTML(data) {
+        const initialRate = this.parseRate(data.rate);
         return `
             <div class="row">
                 <div class="col-md-5 mb-4">
@@ -20,7 +26,9 @@ export class ProductComponent {
                         <div class="col">
                             <div class="p-3 bg-light rounded">
                                 <div class="text-muted small">Ставка / доходность</div>
-                                <div class="fs-4 fw-bold text-success">${data.rate}</div>
+                                <div class="fs-4 fw-bold text-success" id="rate-display-${data.id}">${data.rate}</div>
+                                <input type="range" class="form-range mt-2" id="rate-slider-${data.id}"
+                                    min="0.1" max="30" step="0.1" value="${initialRate}">
                             </div>
                         </div>
                         <div class="col">
@@ -72,6 +80,15 @@ export class ProductComponent {
                 });
             }
         });
+
+        const slider = document.getElementById(`rate-slider-${data.id}`);
+        const display = document.getElementById(`rate-display-${data.id}`);
+        if (slider && display) {
+            slider.addEventListener("input", () => {
+                const val = parseFloat(slider.value).toFixed(1).replace(".", ",");
+                display.textContent = `${val}%`;
+            });
+        }
     }
 
     render(data) {
