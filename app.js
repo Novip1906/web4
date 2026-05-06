@@ -67,15 +67,19 @@ function renderPreviewModelToCanvas(model, isUser, canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setClearColor(0xe6ebf5, 1);
   renderer.setSize(canvas.width, canvas.height, false);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(60, canvas.width / canvas.height, 0.1, 1000);
   camera.position.set(0, 0.7, 2);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 1));
-  const light = new THREE.DirectionalLight(0xffffff, 0.8);
+  scene.add(new THREE.AmbientLight(0xffffff, 1.4));
+  const light = new THREE.DirectionalLight(0xffffff, 1.0);
   light.position.set(2, 6, 4);
   scene.add(light);
+  const fill = new THREE.DirectionalLight(0xffffff, 0.4);
+  fill.position.set(-2, 2, -4);
+  scene.add(fill);
 
   const loader = new GLTFLoader();
 

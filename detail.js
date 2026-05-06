@@ -58,6 +58,7 @@ function renderModel() {
   const canvas = document.getElementById('viewer-canvas');
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xe6ebf5);
@@ -71,20 +72,37 @@ function renderModel() {
   controls.enableZoom = true;
   controls.target.set(0, 1, 0);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-  const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
+  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
   dirLight.position.set(4, 10, 8);
   scene.add(dirLight);
+  const fillLight = new THREE.DirectionalLight(0xffffff, 0.4);
+  fillLight.position.set(-4, 4, -8);
+  scene.add(fillLight);
 
   const loader = new GLTFLoader();
   let loaded = [];
   const gap = 1.8;
+  const TARGET_SIZE = 2;
+
+  function normalizeModelToFloor(obj) {
+    let box = new THREE.Box3().setFromObject(obj);
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    if (maxDim > 0) obj.scale.multiplyScalar(TARGET_SIZE / maxDim);
+    box = new THREE.Box3().setFromObject(obj);
+    const center = box.getCenter(new THREE.Vector3());
+    obj.position.x -= center.x;
+    obj.position.z -= center.z;
+    obj.position.y -= box.min.y;
+  }
 
   if (toRender.length === 2) {
     toRender.forEach((item, i) => {
       loader.load(item.model, gltf => {
         const model = gltf.scene;
-        model.position.x = i === 0 ? -gap : gap;
+        normalizeModelToFloor(model);
+        model.position.x += i === 0 ? -gap : gap;
         scene.add(model);
         loaded.push(model);
       });
@@ -94,12 +112,14 @@ function renderModel() {
     if (item.model) {
       loader.load(item.model, gltf => {
         const model = gltf.scene;
+        normalizeModelToFloor(model);
         scene.add(model);
         loaded.push(model);
       });
     } else if (item.buffer) {
       loader.parse(item.buffer, '', gltf => {
         const model = gltf.scene;
+        normalizeModelToFloor(model);
         scene.add(model);
         loaded.push(model);
       }, error => {
