@@ -1,0 +1,16 @@
+{
+  "name": "web4-frontend",
+  "version": "1.0.0",
+  "description": "ЛР5 — финансовые продукты, фронтенд с AJAX",
+  "main": "main.js",
+  "scripts": {
+    "start": "serve . -l 5500"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "serve": "^14.2.4"
+  }
+}
