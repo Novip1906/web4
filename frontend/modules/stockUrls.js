@@ -1,5 +1,5 @@
 export class StockUrls {
-    constructor(baseUrl = "http://localhost:3000") {
+    constructor(baseUrl = "") {
         this.baseUrl = baseUrl;
         this.resource = "/products";
     }

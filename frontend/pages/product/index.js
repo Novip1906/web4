@@ -30,18 +30,17 @@ export class ProductPage {
         toast.show(payload);
     }
 
-    getData() {
-        ajax.get(stockUrls.getStockById(this.id), (data, err) => {
-            if (err) {
-                this.pageRoot.insertAdjacentHTML(
-                    "beforeend",
-                    `<div class="alert alert-danger">Не удалось загрузить продукт: статус ${err.status}</div>`
-                );
-                this.showToast({ title: "Ошибка", text: `Статус ${err.status}`, variant: "danger" });
-                return;
-            }
+    async getData() {
+        try {
+            const data = await ajax.get(stockUrls.getStockById(this.id));
             this.renderData(data);
-        });
+        } catch (err) {
+            this.pageRoot.insertAdjacentHTML(
+                "beforeend",
+                `<div class="alert alert-danger">Не удалось загрузить продукт: статус ${err.status ?? "—"}</div>`
+            );
+            this.showToast({ title: "Ошибка", text: `Статус ${err.status ?? "—"}`, variant: "danger" });
+        }
     }
 
     renderData(item) {

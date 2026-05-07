@@ -53,32 +53,30 @@ export class MainPage {
         productPage.render();
     }
 
-    deleteCard(e) {
+    async deleteCard(e) {
         e.stopPropagation();
         const cardId = Number(e.currentTarget.dataset.id);
         if (!confirm("Удалить эту карточку?")) return;
 
-        ajax.delete(stockUrls.removeStockById(cardId), (data, err) => {
-            if (err) {
-                this.showToast({ title: "Ошибка", text: `Статус ${err.status}`, variant: "danger" });
-                return;
-            }
+        try {
+            await ajax.delete(stockUrls.removeStockById(cardId));
             this.showToast({ title: "Удалено", text: `Карточка #${cardId} удалена`, variant: "success" });
-            this.getData();
-        });
+            await this.getData();
+        } catch (err) {
+            this.showToast({ title: "Ошибка", text: `Статус ${err.status ?? "—"}`, variant: "danger" });
+        }
     }
 
-    getData() {
+    async getData() {
         const params = this.title ? { title: this.title } : {};
         this.setStatus("Загрузка...");
-        ajax.get(stockUrls.getStocks(params), (data, err) => {
-            if (err) {
-                this.setStatus(`Ошибка загрузки: статус ${err.status}`);
-                this.showToast({ title: "Ошибка", text: `Статус ${err.status}`, variant: "danger" });
-                return;
-            }
+        try {
+            const data = await ajax.get(stockUrls.getStocks(params));
             this.renderData(data || []);
-        });
+        } catch (err) {
+            this.setStatus(`Ошибка загрузки: статус ${err.status ?? "—"}`);
+            this.showToast({ title: "Ошибка", text: `Статус ${err.status ?? "—"}`, variant: "danger" });
+        }
     }
 
     renderData(items) {

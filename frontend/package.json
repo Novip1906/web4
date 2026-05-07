@@ -1,16 +1,21 @@
 {
   "name": "web4-frontend",
   "version": "1.0.0",
-  "description": "ЛР5 — финансовые продукты, фронтенд с AJAX",
+  "description": "ЛР6 — fetch + Vite",
   "main": "main.js",
+  "type": "module",
   "scripts": {
-    "start": "serve . -l 5500"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^5.3.8",
-    "serve": "^14.2.4"
+    "bootstrap": "^5.3.8"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
   }
 }

@@ -1,51 +1,53 @@
 export class Ajax {
-    _handleResponse(xhr, callback) {
-        if (xhr.readyState !== 4) return;
+    async _request(url, options = {}) {
+        const response = await fetch(url, {
+            headers: {
+                Accept: "application/json",
+                ...(options.body ? { "Content-Type": "application/json" } : {}),
+                ...(options.headers || {}),
+            },
+            ...options,
+        });
 
         let data = null;
-        if (xhr.responseText) {
+        const text = await response.text();
+        if (text) {
             try {
-                data = JSON.parse(xhr.responseText);
-            } catch (e) {
+                data = JSON.parse(text);
+            } catch {
                 data = null;
             }
         }
-        const ok = xhr.status >= 200 && xhr.status < 300;
-        callback(ok ? data : null, ok ? null : { status: xhr.status, data });
+
+        if (!response.ok) {
+            const error = new Error(`HTTP ${response.status}`);
+            error.status = response.status;
+            error.data = data;
+            throw error;
+        }
+        return data;
     }
 
-    get(url, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.onreadystatechange = () => this._handleResponse(xhr, callback);
-        xhr.send();
+    get(url) {
+        return this._request(url, { method: "GET" });
     }
 
-    post(url, data, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = () => this._handleResponse(xhr, callback);
-        xhr.send(JSON.stringify(data));
+    post(url, data) {
+        return this._request(url, {
+            method: "POST",
+            body: JSON.stringify(data),
+        });
     }
 
-    patch(url, data, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("PATCH", url, true);
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = () => this._handleResponse(xhr, callback);
-        xhr.send(JSON.stringify(data));
+    patch(url, data) {
+        return this._request(url, {
+            method: "PATCH",
+            body: JSON.stringify(data),
+        });
     }
 
-    delete(url, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("DELETE", url, true);
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.onreadystatechange = () => this._handleResponse(xhr, callback);
-        xhr.send();
+    delete(url) {
+        return this._request(url, { method: "DELETE" });
     }
 }
 
